@@ -19,6 +19,11 @@ public class Hero extends GameObject implements Updatable, Damageable {
 	}
 
 	@Override
+	public Damageable asDamageable() {
+		return this;
+	}
+
+	@Override
 	public void takeDamage(int amount){
 		this.healthPoint = this.healthPoint - amount ;
 	}

@@ -15,6 +15,9 @@ public class BreakableWall extends GameObject implements Damageable {
 		this.broken = true;
 	};
 
-
+	@Override
+	public Damageable asDamageable() {
+		return this;
+	}
 
 }

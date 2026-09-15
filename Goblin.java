@@ -41,7 +41,10 @@ public class Goblin extends GameObject implements Updatable, Damageable {
 		this.healthPoint = this.healthPoint - amount ;
 	}
 
-
+	@Override
+	public Damageable asDamageable() {
+		return this;
+	}
 
 
 }

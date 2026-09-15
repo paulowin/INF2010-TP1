@@ -9,4 +9,9 @@ public class EmptyCase extends GameObject {
         return " ";
     }
 
+    @Override
+    public boolean isEmpty() {
+        return true;
+    }
+
 }
