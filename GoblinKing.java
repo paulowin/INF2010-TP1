@@ -6,7 +6,7 @@ public class GoblinKing extends GameObject implements Updatable, Damageable {
 	private int healthPoint = 10;
 
 	private Random rand = new Random(globalId);
-	
+
 	public GoblinKing(Vec2 position) {
 		super(position);
 	}
@@ -21,11 +21,32 @@ public class GoblinKing extends GameObject implements Updatable, Damageable {
 		};
 		if (rand.nextInt(10) < 3)
 		{
-			// TODO: Déplacer l'unité dans la direction POSSIBLE_DIR[rand.nextInt(4)].
+			Vec2 dir = POSSIBLE_DIR[rand.nextInt(4)];
+			Vec2 nextPos = new Vec2(
+					this.position.getX() + dir.getX(),
+					this.position.getY() + dir.getY()
+			);
+
+			if (world.isInBounds(nextPos) && world.get(nextPos).isEmpty()) {
+				world.clear(this.position);
+				this.position = nextPos;
+				world.set(this.position, this);
+			}
 		}
 		else
 		{
-			// TODO: Tirer plusieurs projectiles dans la direction POSSIBLE_DIR[rand.nextInt(4)].
+			Vec2 dir = POSSIBLE_DIR[rand.nextInt(4)];
+			for (int i = 1; i <= 3; i++) {
+				Vec2 spawnPos = new Vec2(
+						this.position.getX() + dir.getX() * i,
+						this.position.getY() + dir.getY() * i
+				);
+
+				if (world.isInBounds(spawnPos) && world.get(spawnPos).isEmpty()) {
+					Arrow arrow = new Arrow(spawnPos, dir);
+					em.registerUpdatable(arrow, arrow);
+				}
+			}
 		}
 	}
 
@@ -41,6 +62,11 @@ public class GoblinKing extends GameObject implements Updatable, Damageable {
 
 	@Override
 	public void takeDamage(int amount){
-		this.healthPoint = this.healthPoint - amount ;
+		this.healthPoint = this.healthPoint - amount;
+	}
+
+	@Override
+	public boolean isDead() {
+		return this.healthPoint <= 0;
 	}
 }

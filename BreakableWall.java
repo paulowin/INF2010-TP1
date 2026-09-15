@@ -1,4 +1,3 @@
-
 public class BreakableWall extends GameObject implements Damageable {
 
 	private boolean broken = false;
@@ -8,16 +7,22 @@ public class BreakableWall extends GameObject implements Damageable {
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return "B";
 	}
-	void takeDamage(int amount){
+
+	@Override
+	public void takeDamage(int amount) {
 		this.broken = true;
-	};
+	}
+
+	@Override
+	public boolean isDead() {
+		return this.broken;
+	}
 
 	@Override
 	public Damageable asDamageable() {
 		return this;
 	}
-
 }

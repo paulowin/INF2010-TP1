@@ -1,6 +1,6 @@
 
 // Projectile #1
-public class Fireball {
+public class Fireball extends Projectile {
 
 	public Fireball(Vec2 position, Vec2 direction) {
 		super(position, direction, 1);

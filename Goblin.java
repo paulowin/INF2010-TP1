@@ -23,10 +23,31 @@ public class Goblin extends GameObject implements Updatable, Damageable {
 		if (rand.nextInt(10) < 7)
 		{
 	        // TODO: Déplacer l'unité dans la direction POSSIBLE_DIR[rand.nextInt(4)].
+			Vec2 dir = POSSIBLE_DIR[rand.nextInt(4)];
+			Vec2 nextPos = new Vec2(
+					this.position.getX() + dir.getX(),
+					this.position.getY() + dir.getY()
+			);
+
+			if (world.isInBounds(nextPos) && world.get(nextPos).isEmpty()) {
+				world.clear(this.position);
+				this.position = nextPos;
+				world.set(this.position, this);
+			}
 		}
 		else
 		{
 		    // TODO: Tirer dans la direction POSSIBLE_DIR[rand.nextInt(4)].
+			Vec2 dir = POSSIBLE_DIR[rand.nextInt(4)];
+			Vec2 spawnPos = new Vec2(
+					this.position.getX() + dir.getX(),
+					this.position.getY() + dir.getY()
+			);
+
+			if (world.isInBounds(spawnPos) && world.get(spawnPos).isEmpty()) {
+				Arrow arrow = new Arrow(spawnPos, dir);
+				em.registerUpdatable(arrow, arrow);
+			}
 		}
 		
 	}
