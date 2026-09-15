@@ -2,59 +2,68 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventManager {
-
 	private World world;
-
-	private List<Updatable> updatables = new ArrayList<>();
 	private List<GameObject> entities = new ArrayList<>();
+	private List<Updatable> updatables = new ArrayList<>();
 
-	private List<GameObject> toAdd = new ArrayList<>();
-	private List<GameObject> toRemove = new ArrayList<>();
+	// Listes tampons pour éviter les accès concurrents
+	private List<GameObject> toAddEntities = new ArrayList<>();
+	private List<Updatable> toAddUpdatables = new ArrayList<>();
+	private List<GameObject> toRemoveEntities = new ArrayList<>();
 
-	public EventManager(World w) {
-		this.world = w;
+	public EventManager(World world) {
+		this.world = world;
 	}
 
 	public void register(GameObject obj) {
-		toAdd.add(obj);
+		toAddEntities.add(obj);
 		world.set(obj.getPosition(), obj);
 	}
 
-	public void registerUpdatable(GameObject obj, Updatable u) {
-		toAdd.add(obj);
-		updatables.add(u);
+	public void registerUpdatable(GameObject obj, Updatable updatable) {
+		toAddEntities.add(obj);
+		toAddUpdatables.add(updatable);
 		world.set(obj.getPosition(), obj);
 	}
 
 	public void remove(GameObject obj) {
-		toRemove.add(obj);
+		toRemoveEntities.add(obj);
 	}
 
 	public void processTurn() {
-		for (GameObject obj : toAdd) {
-			entities.add(obj);
-		}
-		toAdd.clear();
+		// 1. Appliquer les ajouts en attente
+		entities.addAll(toAddEntities);
+		updatables.addAll(toAddUpdatables);
+		toAddEntities.clear();
+		toAddUpdatables.clear();
 
+		// 2. Mettre à jour toutes les entités actives
 		for (Updatable u : updatables) {
 			u.runIteration(world, this);
 		}
 
+		// 3. Détecter les entités mortes ou détruites
 		for (GameObject obj : entities) {
 			if (obj.isDead()) {
-				toRemove.add(obj);
+				toRemoveEntities.add(obj);
 			}
 		}
 
-		for (GameObject obj : toRemove) {
-			entities.remove(obj);
-			if (obj.asDamageable() != null) {
+		// 4. Nettoyer la grille et les listes
+		for (GameObject dead : toRemoveEntities) {
+			world.clear(dead.getPosition());
+			entities.remove(dead);
+			if (dead instanceof Updatable) {
+				updatables.remove((Updatable) dead);
 			}
-			world.clear(obj.getPosition());
 		}
+		toRemoveEntities.clear();
 
-		updatables.removeIf(u -> ((GameObject) u).isDead());
-		toRemove.clear();
+		// 5. Réintégrer les éventuels projectiles spawnés pendant ce tour
+		entities.addAll(toAddEntities);
+		updatables.addAll(toAddUpdatables);
+		toAddEntities.clear();
+		toAddUpdatables.clear();
 	}
 
 	public List<GameObject> getEntities() {
