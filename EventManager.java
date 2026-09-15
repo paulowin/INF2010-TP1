@@ -6,7 +6,6 @@ public class EventManager {
 	private List<GameObject> entities = new ArrayList<>();
 	private List<Updatable> updatables = new ArrayList<>();
 
-	// Listes tampons pour éviter les accès concurrents
 	private List<GameObject> toAddEntities = new ArrayList<>();
 	private List<Updatable> toAddUpdatables = new ArrayList<>();
 	private List<GameObject> toRemoveEntities = new ArrayList<>();
@@ -31,35 +30,28 @@ public class EventManager {
 	}
 
 	public void processTurn() {
-		// 1. Appliquer les ajouts en attente
 		entities.addAll(toAddEntities);
 		updatables.addAll(toAddUpdatables);
 		toAddEntities.clear();
 		toAddUpdatables.clear();
 
-		// 2. Mettre à jour toutes les entités actives
 		for (Updatable u : updatables) {
 			u.runIteration(world, this);
 		}
 
-		// 3. Détecter les entités mortes ou détruites
 		for (GameObject obj : entities) {
 			if (obj.isDead()) {
 				toRemoveEntities.add(obj);
 			}
 		}
 
-		// 4. Nettoyer la grille et les listes
 		for (GameObject dead : toRemoveEntities) {
 			world.clear(dead.getPosition());
 			entities.remove(dead);
-			if (dead instanceof Updatable) {
-				updatables.remove((Updatable) dead);
-			}
+			updatables.remove(dead);
 		}
 		toRemoveEntities.clear();
 
-		// 5. Réintégrer les éventuels projectiles spawnés pendant ce tour
 		entities.addAll(toAddEntities);
 		updatables.addAll(toAddUpdatables);
 		toAddEntities.clear();
