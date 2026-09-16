@@ -7,7 +7,7 @@ public class SolidWall extends GameObject{
 
 	@Override
 	public String toString(){
-		return "W";
+		return Color.CYAN + "■" + Color.RESET;
 	}
 
 }

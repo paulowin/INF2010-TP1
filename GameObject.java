@@ -4,6 +4,18 @@ public abstract class GameObject {
     protected final int globalId;
     protected Vec2 position;
 
+    private static final Damageable NULL_DAMAGEABLE = new NullDamageable();
+
+    private static class NullDamageable implements Damageable {
+        @Override
+        public void takeDamage(int amount) {}
+
+        @Override
+        public boolean isDead() {
+            return false;
+        }
+    }
+
     public GameObject(Vec2 position) {
         this.globalId = nextId++;
         this.position = position;
@@ -26,7 +38,7 @@ public abstract class GameObject {
     }
 
     public Damageable asDamageable() {
-        return null;
+        return NULL_DAMAGEABLE;
     }
 
     public boolean isDead() {

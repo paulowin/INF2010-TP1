@@ -28,14 +28,13 @@ public class Vec2 {
 		this.y = y;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Vec2 vec2 = (Vec2) o;
-		return x == vec2.x && y == vec2.y;
+	public Vec2 add(Vec2 other) {
+		return new Vec2(this.x + other.x, this.y + other.y);
 	}
 
+	public boolean equalsVec(Vec2 other) {
+		return this.x == other.x && this.y == other.y;
+	}
 	@Override
 	public String toString() {
 		return "(" + x + ", " + y + ")";

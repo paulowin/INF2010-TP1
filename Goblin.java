@@ -54,7 +54,7 @@ public class Goblin extends GameObject implements Updatable, Damageable {
 
 	@Override
 	public String toString(){
-		return "G";
+		return Color.GREEN + "G" + Color.RESET;
 	}
 
 	@Override
@@ -67,5 +67,9 @@ public class Goblin extends GameObject implements Updatable, Damageable {
 		return this;
 	}
 
+	@Override
+	public boolean isDead() {
+		return this.healthPoint <= 0;
+	}
 
 }

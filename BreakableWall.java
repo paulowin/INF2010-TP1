@@ -8,7 +8,7 @@ public class BreakableWall extends GameObject implements Damageable {
 
 	@Override
 	public String toString() {
-		return "B";
+		return Color.BLUE + "■" + Color.RESET;
 	}
 
 	@Override

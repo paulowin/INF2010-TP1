@@ -8,12 +8,12 @@ public class Arrow extends Projectile {
 
 	@Override
 	public String toString() {
-		// Change selon la direction demandée par l'énoncé
-		if (direction.getX() == 1) return ">";
-		if (direction.getX() == -1) return "<";
-		if (direction.getY() == 1) return "v";
-		if (direction.getY() == -1) return "^";
-		return "-";
+		String symbol = "◁";
+		if (direction.getX() == 1) symbol = "▷";
+		else if (direction.getX() == -1) symbol = "◁";
+		else if (direction.getY() == 1) symbol = "▽";
+		else if (direction.getY() == -1) symbol = "△";
+		return Color.PURPLE + symbol + Color.RESET;
 	}
 
 }

@@ -15,7 +15,7 @@ public class Hero extends GameObject implements Updatable, Damageable {
 
 	@Override
 	public String toString(){
-		return "H";
+		return Color.YELLOW + "H" + Color.RESET;
 	}
 
 	@Override
@@ -53,8 +53,8 @@ public class Hero extends GameObject implements Updatable, Damageable {
 		);
 
 		if (world.isInBounds(spawnPos) && world.get(spawnPos).isEmpty()) {
-			Arrow arrow = new Arrow(spawnPos, dir);
-			em.registerUpdatable(arrow, arrow);
+			Fireball fireball = new Fireball(spawnPos, dir);
+			em.registerUpdatable(fireball, fireball);
 		}
 	}
 

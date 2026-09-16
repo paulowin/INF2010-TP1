@@ -8,7 +8,7 @@ public class Fireball extends Projectile {
 
 	@Override
 	public String toString() {
-		return "*";
+		return Color.RED + "*" + Color.RESET;
 	}
 	
 }

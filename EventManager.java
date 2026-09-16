@@ -58,6 +58,17 @@ public class EventManager {
 		toAddUpdatables.clear();
 	}
 
+	public boolean moveObject(GameObject obj, Vec2 dir) {
+		Vec2 nextPos = obj.getPosition().add(dir);
+		if (world.isInBounds(nextPos) && world.get(nextPos).isEmpty()) {
+			world.clear(obj.getPosition());
+			obj.setPosition(nextPos);
+			world.set(nextPos, obj);
+			return true;
+		}
+		return false;
+	}
+
 	public List<GameObject> getEntities() {
 		return entities;
 	}

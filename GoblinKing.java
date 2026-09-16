@@ -52,7 +52,7 @@ public class GoblinKing extends GameObject implements Updatable, Damageable {
 
 	@Override
 	public String toString(){
-		return "K";
+		return Color.GREEN + "K" + Color.RESET;
 	}
 
 	@Override

@@ -33,6 +33,7 @@ public abstract class Projectile extends GameObject implements Updatable {
 			// TODO: Détruire le projectile.
 			this.destroyed = true;
 			world.clear(this.position);
+			em.remove(this);
 			return;
 		}
 
@@ -40,12 +41,10 @@ public abstract class Projectile extends GameObject implements Updatable {
 			// TODO: Trouver une façon d'appliquer du dommage à un objet, puis détruire le projectile.
 			//       Astuce: implémenter une méthode de conversion "asDamageable".
 			GameObject target = world.get(nextPos);
-			Damageable damageableTarget = target.asDamageable();
-			if (damageableTarget != null) {
-				damageableTarget.takeDamage(this.damage);
-			}
+			target.asDamageable().takeDamage(this.damage);
 			this.destroyed = true;
 			world.clear(this.position);
+			em.remove(this);
 		} else {
 			// TODO: Déplacer le projectile.
 			world.clear(this.position);
