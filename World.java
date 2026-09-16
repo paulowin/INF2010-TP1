@@ -27,7 +27,9 @@ public class World implements Iterable<GameObject> {
 	}
 
 	public GameObject get(Vec2 pos) {
-		if (!isInBounds(pos)) return null;
+		if (!isInBounds(pos)) {
+			throw new IndexOutOfBoundsException("Tentative d'accès hors limites à la position : " + pos.getX() + ", " + pos.getY());
+		}
 		return grid[pos.getY()][pos.getX()];
 	}
 

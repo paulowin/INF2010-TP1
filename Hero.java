@@ -33,24 +33,13 @@ public class Hero extends GameObject implements Updatable, Damageable {
 		return this.healthPoint <= 0;
 	}
 
-	public void move(Vec2 dir, World world) {
-		Vec2 nextPos = new Vec2(
-				this.position.getX() + dir.getX(),
-				this.position.getY() + dir.getY()
-		);
+	public void move(Vec2 dir, EventManager em) {
 
-		if (world.isInBounds(nextPos) && world.get(nextPos).isEmpty()) {
-			world.clear(this.position);
-			this.position = nextPos;
-			world.set(this.position, this);
-		}
+		em.moveObject(this, dir);
 	}
 
 	public void shoot(Vec2 dir, World world, EventManager em) {
-		Vec2 spawnPos = new Vec2(
-				this.position.getX() + dir.getX(),
-				this.position.getY() + dir.getY()
-		);
+		Vec2 spawnPos = this.position.add(dir);
 
 		if (world.isInBounds(spawnPos) && world.get(spawnPos).isEmpty()) {
 			Fireball fireball = new Fireball(spawnPos, dir);

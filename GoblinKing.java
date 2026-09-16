@@ -19,19 +19,9 @@ public class GoblinKing extends GameObject implements Updatable, Damageable {
 				new Vec2(-1,0),
 				new Vec2(1,0),
 		};
-		if (rand.nextInt(10) < 3)
-		{
+		if (rand.nextInt(10) < 3) {
 			Vec2 dir = POSSIBLE_DIR[rand.nextInt(4)];
-			Vec2 nextPos = new Vec2(
-					this.position.getX() + dir.getX(),
-					this.position.getY() + dir.getY()
-			);
-
-			if (world.isInBounds(nextPos) && world.get(nextPos).isEmpty()) {
-				world.clear(this.position);
-				this.position = nextPos;
-				world.set(this.position, this);
-			}
+			em.moveObject(this, dir);
 		}
 		else
 		{

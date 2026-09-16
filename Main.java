@@ -71,15 +71,28 @@ public class Main {
 				key = getInput();
 				// TODO: À revoir et compléter avec les autres entrées
 				if (key == 'w') {
-					h.move(new Vec2(0, -1), w);
+					h.move(new Vec2(0, -1), em);
 				} else if (key == 's') {
-					h.move(new Vec2(0, 1), w);
+					h.move(new Vec2(0, 1), em);
 				} else if (key == 'a') {
-					h.move(new Vec2(-1, 0), w);
+					h.move(new Vec2(-1, 0), em);
 				} else if (key == 'd') {
-					h.move(new Vec2(1, 0), w);
+					h.move(new Vec2(1, 0), em);
 				} else if (key == 'f') {
-					h.shoot(new Vec2(1, 0), w, em);
+					System.out.print("\nDirection du tir (w/a/s/d) : ");
+					int dirKey = getInput();
+					Vec2 shootDir = null;
+
+					if (dirKey == 'w') shootDir = new Vec2(0, -1);
+					else if (dirKey == 's') shootDir = new Vec2(0, 1);
+					else if (dirKey == 'a') shootDir = new Vec2(-1, 0);
+					else if (dirKey == 'd') shootDir = new Vec2(1, 0);
+
+					if (shootDir != null) {
+						h.shoot(shootDir, w, em);
+					} else {
+						System.out.println("Tir annulé : touche invalide.");
+					}
 				} else if (key == 'q') {
 					isRunning = false;
 				}

@@ -3,7 +3,7 @@
 public class Fireball extends Projectile {
 
 	public Fireball(Vec2 position, Vec2 direction) {
-		super(position, direction, 1);
+		super(position, direction, 2, 3);
 	}
 
 	@Override
