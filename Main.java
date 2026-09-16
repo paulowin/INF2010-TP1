@@ -11,7 +11,7 @@ public class Main {
 		// TODO: Implémentation du dessin
 		for (int y = 0; y < w.getHeight(); y++) {
 			for (int x = 0; x < w.getWidth(); x++) {
-				System.out.print(w.get(new Vec2(x,y)).toString());
+				System.out.print("[" + w.get(new Vec2(x, y)).toString() + "]");
 			}
 			System.out.println();
 		}
